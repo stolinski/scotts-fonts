@@ -7,7 +7,6 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 
 	if (SCOTTS_FONTS) {
 		const allowed = await is_allowed_domain(origin!, SCOTTS_FONTS);
-		console.log('allowed', allowed);
 
 		if (!allowed) {
 			return new Response('Forbidden', { status: 403 });
@@ -35,12 +34,13 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 async function is_allowed_domain(url, SCOTTS_FONTS) {
 	try {
 		const domains = await SCOTTS_FONTS.get('domains');
+		const domains_array = domains ? JSON.parse(domains) : [];
 		if (!domains) {
 			console.error('No allowed domains found');
 			return false;
 		}
 
-		const allowed_domains = domains[0].split(',');
+		const allowed_domains = domains_array.split(',');
 		console.log('allowed_domains', allowed_domains);
 		const hostname = new URL(url).hostname;
 		console.log('hostname', hostname);
