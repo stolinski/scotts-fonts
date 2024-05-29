@@ -43,6 +43,7 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 
 		const allowed_domains = domains_array[0].split(',');
 		console.log('allowed_domains', allowed_domains);
+		console.log('url', url);
 		const hostname = new URL(url).hostname;
 		console.log('hostname', hostname);
 
@@ -50,6 +51,13 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
 				console.log('Allowed domain:', domain);
 				return true;
+			}
+			// Check for wildcard match
+			if (domain.includes('*')) {
+				const wildcard_regex = new RegExp(`^${domain.replace(/\*/g, '.*')}$`);
+				if (wildcard_regex.test(hostname)) {
+					return true;
+				}
 			}
 		}
 
