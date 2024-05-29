@@ -3,6 +3,10 @@ name = "scott-fonts-pages"
 compatibility_date = "2024-05-24"
 pages_build_output_dir = ".svelte-kit/cloudflare"
 
+[[kv_namespaces]]
+binding = "SCOTTS_FONTS"
+id = "e63be316336c409bb99f2979cf31a561"
+
 # Automatically place your workloads in an optimal location to minimize latency.
 # If you are running back-end logic in a Pages Function, running it closer to your back-end infrastructure
 # rather than the end user may result in better performance.
