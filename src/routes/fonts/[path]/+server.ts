@@ -7,6 +7,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 
 	if (SCOTTS_FONTS) {
 		const allowed = await is_allowed_domain(origin!, SCOTTS_FONTS);
+		console.log('allowed', allowed);
 
 		if (!allowed) {
 			return new Response('Forbidden', { status: 403 });
@@ -40,11 +41,13 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 		}
 
 		const allowed_domains = domains.split(',');
+		console.log('allowed_domains', allowed_domains);
 		const hostname = new URL(url).hostname;
 		console.log('hostname', hostname);
 
 		for (const domain of allowed_domains) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
+				console.log('Allowed domain:', domain);
 				return true;
 			}
 		}
