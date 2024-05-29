@@ -6,7 +6,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	const { SCOTTS_FONTS } = platform?.env || {};
 
 	if (SCOTTS_FONTS) {
-		const allowed = await isAllowedDomain(origin!);
+		const allowed = await isAllowedDomain(origin!, SCOTTS_FONTS);
 
 		if (!allowed) {
 			return new Response('Forbidden', { status: 403 });
@@ -31,7 +31,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	return new Response('Not Available', { status: 401 });
 };
 
-async function isAllowedDomain(url: string) {
+async function isAllowedDomain(url: string, SCOTTS_FONTS: KVNamespace) {
 	try {
 		const allowedDomains = JSON.parse((await SCOTTS_FONTS.get('domains')) || '[]') as string[];
 		const { hostname } = new URL(url);
