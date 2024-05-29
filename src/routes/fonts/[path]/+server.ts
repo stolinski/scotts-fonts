@@ -2,9 +2,10 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ request, platform, params }) => {
 	console.log(`[LOGGING FROM /hello]: Request came from ${request.url}`);
 
-	const origin = request.headers.get('Origin');
-	const referrer = request.headers.get('Referer');
-	console.log('referrer', referrer);
+	const origin = request.headers.get('Referer');
+	console.log('origin', origin);
+	// const referrer = request.headers.get('Referer');
+	// console.log('referrer', referrer);
 	const { SCOTTS_FONTS } = platform?.env || {};
 
 	if (SCOTTS_FONTS) {
