@@ -41,6 +41,7 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 
 		const allowed_domains = domains.split(',');
 		const hostname = new URL(url).hostname;
+		console.log('hostname', hostname);
 
 		for (const domain of allowed_domains) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
