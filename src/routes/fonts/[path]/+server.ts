@@ -3,6 +3,9 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	console.log(`[LOGGING FROM /hello]: Request came from ${request.url}`);
 
 	const origin = request.headers.get('Referer');
+	const og = request.headers.get('Origin');
+	console.log('refer', origin);
+	console.log('og', og);
 
 	const { SCOTTS_FONTS } = platform?.env || {};
 
@@ -43,6 +46,7 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 
 		const allowed_domains = domains_array[0].split(',');
 		const hostname = new URL(url).hostname;
+		console.log('hostname', hostname);
 
 		for (const domain of allowed_domains) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
