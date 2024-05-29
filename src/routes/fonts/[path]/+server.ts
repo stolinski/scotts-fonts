@@ -35,12 +35,13 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 	try {
 		const domains = await SCOTTS_FONTS.get('domains');
 		const domains_array = domains ? JSON.parse(domains) : [];
+		console.log('domains_array', domains_array);
 		if (!domains) {
 			console.error('No allowed domains found');
 			return false;
 		}
 
-		const allowed_domains = domains_array.split(',');
+		const allowed_domains = domains_array[0].split(',');
 		console.log('allowed_domains', allowed_domains);
 		const hostname = new URL(url).hostname;
 		console.log('hostname', hostname);
