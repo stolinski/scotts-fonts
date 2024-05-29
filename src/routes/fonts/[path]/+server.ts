@@ -40,7 +40,7 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 			return false;
 		}
 
-		const allowed_domains = domains.split(',');
+		const allowed_domains = domains[0].split(',');
 		console.log('allowed_domains', allowed_domains);
 		const hostname = new URL(url).hostname;
 		console.log('hostname', hostname);
