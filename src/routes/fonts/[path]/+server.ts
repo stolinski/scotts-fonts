@@ -6,7 +6,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	const { SCOTTS_FONTS } = platform?.env || {};
 
 	if (SCOTTS_FONTS) {
-		const allowed = await isAllowedDomain(origin!, SCOTTS_FONTS);
+		const allowed = await is_allowed_domain(origin!, SCOTTS_FONTS);
 
 		if (!allowed) {
 			return new Response('Forbidden', { status: 403 });
@@ -31,12 +31,24 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	return new Response('Not Available', { status: 401 });
 };
 
-async function isAllowedDomain(url: string, SCOTTS_FONTS: KVNamespace) {
+async function is_allowed_domain(url, SCOTTS_FONTS) {
 	try {
-		const allowedDomains = JSON.parse((await SCOTTS_FONTS.get('domains')) || '[]') as string[];
-		const { hostname } = new URL(url);
+		const domains = await SCOTTS_FONTS.get('domains');
+		if (!domains) {
+			console.error('No allowed domains found');
+			return false;
+		}
 
-		return allowedDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+		const allowed_domains = domains.split(',');
+		const hostname = new URL(url).hostname;
+
+		for (const domain of allowed_domains) {
+			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
+				return true;
+			}
+		}
+
+		return false;
 	} catch (error) {
 		console.error('Invalid URL:', error);
 		return false;
