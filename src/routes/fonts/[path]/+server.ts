@@ -3,9 +3,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 	console.log(`[LOGGING FROM /hello]: Request came from ${request.url}`);
 
 	const origin = request.headers.get('Referer');
-	console.log('origin', origin);
-	// const referrer = request.headers.get('Referer');
-	// console.log('referrer', referrer);
+
 	const { SCOTTS_FONTS } = platform?.env || {};
 
 	if (SCOTTS_FONTS) {
@@ -38,21 +36,16 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 	try {
 		const domains = await SCOTTS_FONTS.get('domains');
 		const domains_array = domains ? JSON.parse(domains) : [];
-		console.log('domains_array', domains_array);
 		if (!domains) {
 			console.error('No allowed domains found');
 			return false;
 		}
 
 		const allowed_domains = domains_array[0].split(',');
-		console.log('allowed_domains', allowed_domains);
-		console.log('url', url);
 		const hostname = new URL(url).hostname;
-		console.log('hostname', hostname);
 
 		for (const domain of allowed_domains) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {
-				console.log('Allowed domain:', domain);
 				return true;
 			}
 			// Check for wildcard match
