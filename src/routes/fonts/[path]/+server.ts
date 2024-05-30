@@ -22,11 +22,13 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 			return new Response('Font not found', { status: 404 });
 		}
 
+		// This is here because Safari doesn't reliably set the Origin header, referer has "/" at the end causing cors issues.
+		const allow_origin = origin?.endsWith('/') ? origin.slice(0, -1) : origin;
 		return new Response(font, {
 			headers: {
 				'Content-Type': 'font/woff2',
 				'Cache-Control': 'public, max-age=31536000',
-				'Access-Control-Allow-Origin': origin!,
+				'Access-Control-Allow-Origin': allow_origin!,
 				'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
 				'Access-Control-Allow-Headers': 'Content-Type'
 			}
