@@ -1,6 +1,6 @@
 import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ request, platform, params }) => {
-	console.log(`[LOGGING FROM /hello]: Request came from ${request.url}`);
+	console.log(`[LOGGING FROM /]: Request came from ${request.url}`);
 
 	const origin = request.headers.get('Referer');
 	const og = request.headers.get('Origin');
@@ -24,6 +24,7 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 
 		// This is here because Safari doesn't reliably set the Origin header, referer has "/" at the end causing cors issues.
 		const allow_origin = origin?.endsWith('/') ? origin.slice(0, -1) : origin;
+		console.log('allow_origin', allow_origin);
 		return new Response(font, {
 			headers: {
 				'Content-Type': 'font/woff2',
