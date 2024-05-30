@@ -9,6 +9,10 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 		console.log('refer', origin);
 		console.log('og', og);
 
+		// This is here because Safari doesn't reliably set the Origin header, referer has "/" at the end causing cors issues.
+		const allow_origin = origin?.endsWith('/') ? origin.slice(0, -1) : origin;
+		console.log('allow_origin', allow_origin);
+
 		const { SCOTTS_FONTS } = platform?.env || {};
 
 		if (SCOTTS_FONTS) {
@@ -24,9 +28,6 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 				return new Response('Font not found', { status: 404 });
 			}
 
-			// This is here because Safari doesn't reliably set the Origin header, referer has "/" at the end causing cors issues.
-			const allow_origin = origin?.endsWith('/') ? origin.slice(0, -1) : origin;
-			console.log('allow_origin', allow_origin);
 			return new Response(font, {
 				headers: {
 					'Content-Type': 'font/woff2',
