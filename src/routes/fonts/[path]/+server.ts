@@ -1,17 +1,12 @@
 import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ request, platform, params }) => {
-	console.log('why arentyou running');
 	try {
 		console.log(`[LOGGING FROM /]: Request came from ${request.url}`);
 
 		const origin = request.headers.get('Referer');
-		const og = request.headers.get('Origin');
-		console.log('refer', origin);
-		console.log('og', og);
 
 		// This is here because Safari doesn't reliably set the Origin header, referer has "/" at the end causing cors issues.
 		const allow_origin = origin?.endsWith('/') ? origin.slice(0, -1) : origin;
-		console.log('allow_origin', allow_origin);
 
 		const { SCOTTS_FONTS } = platform?.env || {};
 
@@ -34,7 +29,8 @@ export const GET: RequestHandler = async ({ request, platform, params }) => {
 					'Cache-Control': 'public, max-age=31536000',
 					'Access-Control-Allow-Origin': allow_origin!,
 					'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
-					'Access-Control-Allow-Headers': 'Content-Type'
+					'Access-Control-Allow-Headers': 'Content-Type',
+					Vary: 'Accept-Encoding, Referer'
 				}
 			});
 		}
@@ -56,7 +52,6 @@ async function is_allowed_domain(url, SCOTTS_FONTS) {
 
 		const allowed_domains = domains_array[0].split(',');
 		const hostname = new URL(url).hostname;
-		console.log('hostname', hostname);
 
 		for (const domain of allowed_domains) {
 			if (hostname === domain || hostname.endsWith(`.${domain}`)) {

@@ -1,6 +1,5 @@
 import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ platform }) => {
-	console.log('why arentyou running log');
 	const { keys } = await platform?.env.SCOTTS_FONTS.list();
 	const fontKeys = keys.filter((key) => key.name !== 'domains' && key.name !== 'whitelist');
 	const fonts = {};

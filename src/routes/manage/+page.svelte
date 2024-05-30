@@ -27,7 +27,6 @@
 				},
 				body: JSON.stringify({ domains: whitelist, code })
 			});
-			console.log('res', res);
 			if (res.status === 200) {
 				alert('Whitelist updated');
 			} else {
