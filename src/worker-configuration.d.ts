@@ -3,4 +3,5 @@
 
 interface Env {
 	SCOTTS_FONTS: KVNamespace;
+	CODE?: string;
 }
