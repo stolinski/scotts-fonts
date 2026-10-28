@@ -21,7 +21,7 @@
 		"wrangler": "^3.57.2"
 	},
 	"engines": {
-		"node": "<20.11.1"
+		"node": "20.x"
 	},
 	"name": "scott-fonts-pages",
 	"private": true,
